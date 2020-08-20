@@ -1,7 +1,11 @@
 dependencies:
   - numpy
-  - matplotlib
-  - pandas
   - scipy.integrate
-  - ipywidgets
+  - scipy.optimize
+  - scipy.interpolate
   - IPython.display
+  - mpl_toolkits
+  - matplotlib
+  - ipywidgets
+  - pandas
+  - warnings
