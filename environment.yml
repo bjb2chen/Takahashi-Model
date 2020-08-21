@@ -8,4 +8,5 @@ dependencies:
   - matplotlib
   - ipywidgets
   - pandas
-  - warnings
+  - warnings 
+  - REE_ED_Takahashi_Model
