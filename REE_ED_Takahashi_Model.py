@@ -3,7 +3,7 @@
 
 # # Takahashi Model Emulation (Python Implementation)
 
-# <p style="color:crimson;"> *To start using this notebook, please press the double <code>>></code> button.* </p> 
+# <p style="color:crimson;"> *To start using this notebook, please press the double <code>>></code> button in jupyter notebook or <code>Runtime -> Run All</code> in Google Colaboratory.* </p> 
 
 # In[1]:
 
@@ -28,9 +28,26 @@ warnings.filterwarnings('ignore')
 ##=======================================================
 ## REE-Electrodialysis Model
 ## Python
-## Latest update: August 19, 2020
+## Latest update: August 22, 2020
 ##=======================================================
 
+#==============================================
+# From Takahashi paper:
+#==============================================
+# Symbol | Meaning                | Units 
+#==============================================
+# (C)    | Concentrations         | [mol/m3]
+# (D)    | Diffusion coefficient  | [m2/s]
+# (F)    | Faraday constant       | [C/mol]
+# (I)    | Current density        | [A/m2]
+# (J)    | Flux in membrane       | [mol/(m2*s)]
+# (Kabs) | Absolute stab. constant| [dm3/mol]
+# (Q)    | Ion-exchange capacity  | [mol/m3]
+# (S)    | Surface area           | [m2]
+# (Si)   | Separation factor      | [unitless]
+# (t)    | Time                   | [s]
+# (V)    | Volume of solution     | [m3]
+ 
 # List of constant values.
 
 surface_area = 0.005 
@@ -401,16 +418,21 @@ def conditions(LREE_type, HREE_type, agent_type, light, heavy, agent, H, time, c
     eq_79_sol = fsolve(eq_79, guess_2)
     
     # Uncomment these print statements to verify output values.
-    #print('Concentration of LaEDTA =', te_sol[0])
-    #print('Concentration of NdEDTA ion =', te_sol[1])
-    #print('Concentration of EDTA non-complex =', te_sol[2])
+    #print('Concentration of ' + init_conds[0] + init_conds[2] + ' ion =', te_sol[0])
+    #print('Concentration of ' + init_conds[1] + init_conds[2] + ' ion =', te_sol[1])
+    #print('Concentration of ' + init_conds[2] +' non-complex ion =', te_sol[2])
     #print('solution: ', te_sol, '\n', 'equations:', eq_26(te_sol))
     
-    #print('Concentration of La in membrane=', eq_79_sol[0])
-    #print('Concentration of Nd in membrane=', eq_79_sol[1])
-    #print('Concentration of EDTA in membrane =', eq_79_sol[2])
+    #print('Concentration of ' + init_conds[0] + ' in membrane =', eq_79_sol[0])
+    #print('Concentration of ' + init_conds[1] + ' in membrane =', eq_79_sol[1])
+    #print('Concentration of ' + init_conds[2] + ' in membrane =', eq_79_sol[2])
     #print('Concentration of H in membrane =', eq_79_sol[3])
     #print('solution: ', eq_79_sol, '\n', 'equations:', eq_79(eq_79_sol))
+    
+    for i in range(len(eq_79_sol)):
+        if eq_79_sol[i] == float(guess_2[i]):
+            print('\033[93m' + 'Potential Error. Try adjusting the left column guess values')
+            break
     
     
     def RKG_Takahashi(z, t):
